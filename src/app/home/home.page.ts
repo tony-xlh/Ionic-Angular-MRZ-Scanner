@@ -10,7 +10,12 @@ export class HomePage {
   mrzRawText:string;
  
   constructor(private router: Router) {
+    console.log(router);
+  }
 
+  async ngOnInit(){
+    console.log("init");
+    
   }
 
   ionViewWillEnter(){

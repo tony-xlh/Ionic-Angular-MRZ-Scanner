@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
 
 @Component({
   selector: 'app-mrzscanner',
@@ -12,9 +13,32 @@ export class MRZScannerComponent implements OnInit {
   pCameraEnhancer = null;
 
   @ViewChild('container') container: any;
-  constructor() { }
+  constructor() { 
+  }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
+    this.checkPermission();
+  }
+
+  async checkPermission(){
+    const cameraPermissionResult:boolean = await this.hasCameraPermission();
+    if (cameraPermissionResult === false) {
+      const response = await this.requestCameraPermission();
+      console.log(response);
+    }
+  }
+
+  async hasCameraPermission():Promise<boolean> {
+    const response = await AndroidPermissions.checkPermission(AndroidPermissions.PERMISSION.CAMERA);
+    return response.hasPermission;
+  }
+
+  async requestCameraPermission():Promise<boolean> {
+    const response = await AndroidPermissions.requestPermission(AndroidPermissions.PERMISSION.CAMERA);
+    return response.hasPermission;
+  }
+
+  async startScanning(){
     try {
       let cameraEnhancer = await (this.pCameraEnhancer = CameraEnhancer.createInstance());
       await cameraEnhancer.setUIElement((this as any).container.nativeElement);
