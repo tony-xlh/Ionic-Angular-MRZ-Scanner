@@ -23,6 +23,8 @@
     "@awesome-cordova-plugins/screen-orientation": "^5.44.0",
     "@ionic/angular": "^6.0.0",
     "@ionic/cordova-builders": "^6.1.0",
+    "dynamsoft-camera-enhancer": "^3.0.1",
+    "dynamsoft-label-recognizer": "^2.2.11",
     "eruda": "^2.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
