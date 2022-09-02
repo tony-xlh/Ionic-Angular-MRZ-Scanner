@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ScannerPageRoutingModule } from './scanner-routing.module';
 
 import { ScannerPage } from './scanner.page';
+import { MRZScannerComponent } from '../mrzscanner/mrzscanner.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { ScannerPage } from './scanner.page';
     ScannerPageRoutingModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
-  declarations: [ScannerPage]
+  declarations: [ScannerPage,MRZScannerComponent]
 })
 export class ScannerPageModule {}
