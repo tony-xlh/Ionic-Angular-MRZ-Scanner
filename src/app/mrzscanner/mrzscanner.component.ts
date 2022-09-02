@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
+import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 
 @Component({
   selector: 'app-mrzscanner',
