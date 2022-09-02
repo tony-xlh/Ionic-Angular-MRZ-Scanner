@@ -25,6 +25,11 @@ export class MRZScannerComponent implements OnInit {
     if (cameraPermissionResult === false) {
       const response = await this.requestCameraPermission();
       console.log(response);
+      if (response === true) {
+        this.startScanning();
+      }
+    }else{
+      this.startScanning();
     }
   }
 
@@ -54,20 +59,6 @@ export class MRZScannerComponent implements OnInit {
 
       await recognizer.startScanning(true);
 
-      // Triggered when the video frame is recognized
-      recognizer.onImageRead = (results: any) => {
-        for (let result of results) {
-          for (let lineResult of result.lineResults) {
-            console.log("Image Read: ", lineResult.text);
-          }
-        }
-      };
-
-      // Triggered when a different result is recognized
-      recognizer.onUniqueRead = (txt: string) => {
-        alert(txt);
-        console.log("Unique Code Found: " + txt);
-      }
 
       // Callback to MRZ recognizing result
       recognizer.onMRZRead = (txt: string, results: any) => {
@@ -75,20 +66,16 @@ export class MRZScannerComponent implements OnInit {
         console.log("MRZ results: ", results);
       }
 
-      // Callback to VIN recognizing result
-      recognizer.onVINRead = (txt: string) => {
-        console.log("VIN results: ",txt);
+    } catch (ex) {
+      let errMsg: string;
+      if (ex.message.includes("network connection error")) {
+        errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+      } else {
+        errMsg = ex.message||ex;
       }
-  } catch (ex) {
-    let errMsg: string;
-    if (ex.message.includes("network connection error")) {
-      errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-    } else {
-      errMsg = ex.message||ex;
+      console.error(errMsg);
+      alert(errMsg);
     }
-    console.error(errMsg);
-    alert(errMsg);
-  }
   }
   
   async ngOnDestroy() {
