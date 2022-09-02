@@ -1,5 +1,5 @@
 {
-  "name": "qrcodescanner",
+  "name": "mrzscanner",
   "integrations": {
     "cordova": {}
   },
