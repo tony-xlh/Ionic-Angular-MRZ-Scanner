@@ -4,7 +4,7 @@ import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
 
-LabelRecognizer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
+LabelRecognizer.engineResourcePath = "/assets/dlr/";
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "license" as shown below.
@@ -99,6 +99,7 @@ export class MRZScannerComponent implements OnInit {
       } else {
         errMsg = ex.message||ex;
       }
+      console.log(ex);
       console.error(errMsg);
       alert(errMsg);
     }
