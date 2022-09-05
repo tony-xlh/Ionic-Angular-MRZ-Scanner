@@ -15,7 +15,6 @@ export class HomePage {
 
   async ngOnInit(){
     console.log("init");
-    alert(window.navigator.onLine);
   }
 
   ionViewWillEnter(){
