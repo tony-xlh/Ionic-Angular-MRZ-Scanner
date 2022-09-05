@@ -36,6 +36,11 @@
                 "output": "/assets/dlr/"
               },
               {
+                "glob": "**/*",
+                "input": "node_modules/dynamsoft-camera-enhancer/dist",
+                "output": "/assets/dce/"
+              },
+              {
                 "glob": "eruda.js",
                 "input": "node_modules/eruda",
                 "output": "/assets/"
@@ -127,6 +132,11 @@
                 "glob": "**/*",
                 "input": "node_modules/dynamsoft-label-recognizer/dist",
                 "output": "/assets/dlr/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/dynamsoft-camera-enhancer/dist",
+                "output": "/assets/dce/"
               },
               {
                 "glob": "eruda.js",

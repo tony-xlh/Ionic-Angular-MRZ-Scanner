@@ -16,7 +16,7 @@ LabelRecognizer.license = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
  * For more information, see https://www.dynamsoft.com/label-recognition/programming/javascript/user-guide.html?ver=latest#specify-the-license or contact support@dynamsoft.com.
  * LICENSE ALERT - THE END
  */
-CameraEnhancer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.0.1/dist/";
+CameraEnhancer.engineResourcePath = "/assets/dce/";
 
 @Component({
   selector: 'app-mrzscanner',
