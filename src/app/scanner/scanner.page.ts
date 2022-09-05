@@ -14,10 +14,17 @@ export class ScannerPage implements OnInit {
   }
 
   close(){
-
     this.router.navigate(['/home'],{
       state: {
         mrzRawText:"Not found"
+      }
+    });
+  }
+
+  onMRZRead(txt:string) {
+    this.router.navigate(['/home'],{
+      state: {
+        mrzRawText:txt
       }
     });
   }
