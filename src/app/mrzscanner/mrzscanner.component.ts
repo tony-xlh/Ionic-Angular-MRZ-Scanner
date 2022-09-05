@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
@@ -22,11 +22,12 @@ CameraEnhancer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-came
   selector: 'app-mrzscanner',
   templateUrl: './mrzscanner.component.html',
   styleUrls: ['./mrzscanner.component.scss'],
+  outputs: ['onMRZRead']
 })
 export class MRZScannerComponent implements OnInit {
   pRecognizer = null;
   pCameraEnhancer = null;
-
+  onMRZRead = new EventEmitter<string>();
   @ViewChild('container') container: any;
   constructor(public platform: Platform) { 
   }
@@ -82,6 +83,9 @@ export class MRZScannerComponent implements OnInit {
       recognizer.onMRZRead = (txt: string, results: any) => {
         console.log("MRZ text: ",txt);
         console.log("MRZ results: ", results);
+        if (this.onMRZRead) {
+          this.onMRZRead.emit(txt);
+        }
       }
 
     } catch (ex) {
