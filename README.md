@@ -6,13 +6,10 @@ How to run:
 
 1. npm install
 
-2. You can set up your own license in the `src\app\scanner\scanner.page.html` file.
+2. You can set up your own license in the `src/app/mrzscanner/mrzscanner.component.ts` file.
 
    ```html
-   <app-mrzscanner
-     license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ=="
-     (onMRZRead)="onMRZRead($event)">
-   </app-mrzscanner>
+   LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
    ```
    
    [Apply for a trial license of Dynamsoft Label Recognizer](https://www.dynamsoft.com/customer/license/trialLicense/?product=dlr).
