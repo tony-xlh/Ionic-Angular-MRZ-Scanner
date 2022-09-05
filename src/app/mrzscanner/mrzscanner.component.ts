@@ -77,14 +77,18 @@ export class MRZScannerComponent implements OnInit {
       await recognizer.updateRuntimeSettingsFromString("video-mrz");
 
       await recognizer.startScanning(true);
-
-
+      
       // Callback to MRZ recognizing result
       recognizer.onMRZRead = (txt: string, results: any) => {
         console.log("MRZ text: ",txt);
         console.log("MRZ results: ", results);
         if (this.onMRZRead) {
-          this.onMRZRead.emit(txt);
+          const valid = this.validateMRZ(txt);
+          if (valid) {
+            this.onMRZRead.emit(txt);
+          }else {
+            console.log("Invalid mrz code.");
+          }
         }
       }
 
@@ -98,6 +102,13 @@ export class MRZScannerComponent implements OnInit {
       console.error(errMsg);
       alert(errMsg);
     }
+  }
+
+  validateMRZ(mrzText:string) {
+    const parse = require('mrz').parse;
+    let mrz = mrzText.split("\n");
+    const result = parse(mrz);
+    return result.valid;
   }
   
   async ngOnDestroy() {
