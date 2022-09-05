@@ -4,6 +4,10 @@ import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
 
+LabelRecognizer.engineResourcePath = "/assets/dlr/";
+CameraEnhancer.engineResourcePath = "/assets/dce/";
+LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
+
 @Component({
   selector: 'app-mrzscanner',
   templateUrl: './mrzscanner.component.html',
@@ -11,8 +15,8 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
   outputs: ['onMRZRead']
 })
 export class MRZScannerComponent implements OnInit {
-  pRecognizer = null;
-  pCameraEnhancer = null;
+  recognizer:LabelRecognizer = null;
+  cameraEnhancer:CameraEnhancer = null;
   onMRZRead = new EventEmitter<string>();
   @ViewChild('container') container: any;
   constructor(public platform: Platform) {
@@ -22,17 +26,6 @@ export class MRZScannerComponent implements OnInit {
   ngOnInit() {
     if (this.platform.is("android")) {
       this.checkPermission();
-    }
-    if (LabelRecognizer.isWasmLoaded() === false) {
-      LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
-      if (this.platform.is("ios")) {
-        console.log("iOS. use cdn");
-        LabelRecognizer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
-        CameraEnhancer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.0.1/dist/";
-      }else{
-        LabelRecognizer.engineResourcePath = "/assets/dlr/";
-        CameraEnhancer.engineResourcePath = "/assets/dce/";
-      }
     }
   }
 
@@ -61,7 +54,7 @@ export class MRZScannerComponent implements OnInit {
 
   async startScanning(){
     try {
-      let cameraEnhancer = await (this.pCameraEnhancer = CameraEnhancer.createInstance());
+      let cameraEnhancer = await CameraEnhancer.createInstance();
       await cameraEnhancer.setUIElement((this as any).container.nativeElement);
 
       LabelRecognizer.onResourcesLoadStarted = () => { console.log('load started...'); }
@@ -69,7 +62,7 @@ export class MRZScannerComponent implements OnInit {
           console.log("Loading resources progress: " + progress.loaded + "/" + progress.total);
       };
       LabelRecognizer.onResourcesLoaded = () => { console.log('load ended...'); }
-      let recognizer = await (this.pRecognizer = LabelRecognizer.createInstance());
+      let recognizer = await LabelRecognizer.createInstance();
 
       await recognizer.setImageSource(cameraEnhancer, {resultsHighlightBaseShapes: DrawingItem});
       await recognizer.updateRuntimeSettingsFromString("video-mrz");
@@ -89,6 +82,8 @@ export class MRZScannerComponent implements OnInit {
           }
         }
       }
+      this.cameraEnhancer = cameraEnhancer;
+      this.recognizer = recognizer;
 
     } catch (ex) {
       let errMsg: string;
@@ -111,9 +106,11 @@ export class MRZScannerComponent implements OnInit {
   }
   
   async ngOnDestroy() {
-    if (this.pRecognizer) {
-      await (await this.pRecognizer).destroyContext();
-      (await this.pCameraEnhancer).dispose();
+    if (this.recognizer) {
+      await this.recognizer.destroyContext();
+      this.cameraEnhancer.dispose(false);
+      this.recognizer = null;
+      this.cameraEnhancer = null;
       console.log('VideoRecognizer Component Unmount');
     }
   }
