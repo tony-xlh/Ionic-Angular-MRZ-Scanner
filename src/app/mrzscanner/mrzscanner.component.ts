@@ -1,21 +1,10 @@
-import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
 
 LabelRecognizer.engineResourcePath = "/assets/dlr/";
-
-/** LICENSE ALERT - README
- * To use the library, you need to first specify a license key using the API "license" as shown below.
- */
-LabelRecognizer.license = "DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9";
-/**
- * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dlr&package=js to get your own trial license good for 30 days.
- * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
- * For more information, see https://www.dynamsoft.com/label-recognition/programming/javascript/user-guide.html?ver=latest#specify-the-license or contact support@dynamsoft.com.
- * LICENSE ALERT - THE END
- */
 CameraEnhancer.engineResourcePath = "/assets/dce/";
 
 @Component({
@@ -25,6 +14,7 @@ CameraEnhancer.engineResourcePath = "/assets/dce/";
   outputs: ['onMRZRead']
 })
 export class MRZScannerComponent implements OnInit {
+  @Input() license?:string
   pRecognizer = null;
   pCameraEnhancer = null;
   onMRZRead = new EventEmitter<string>();
@@ -33,6 +23,12 @@ export class MRZScannerComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.license) {
+      LabelRecognizer.license = this.license;
+    }else{
+      LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
+    }
+
     if (this.platform.is("android")) {
       this.checkPermission();
     }
