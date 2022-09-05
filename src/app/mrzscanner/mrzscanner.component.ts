@@ -84,7 +84,7 @@ export class MRZScannerComponent implements OnInit {
         console.log("MRZ results: ", results);
         if (this.onMRZRead) {
           const valid = this.validateMRZ(txt);
-          if (valid) {
+          if (valid === true) {
             this.onMRZRead.emit(txt);
           }else {
             console.log("Invalid mrz code.");
