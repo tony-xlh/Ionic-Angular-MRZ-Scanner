@@ -73,7 +73,7 @@ export class MRZScannerComponent implements OnInit {
       let recognizer = await (this.pRecognizer = LabelRecognizer.createInstance());
 
       await recognizer.setImageSource(cameraEnhancer, {resultsHighlightBaseShapes: DrawingItem});
-      await recognizer.updateRuntimeSettingsFromString("video-numberletter");
+      await recognizer.updateRuntimeSettingsFromString("video-mrz");
 
       await recognizer.startScanning(true);
 
