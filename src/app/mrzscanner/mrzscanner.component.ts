@@ -4,10 +4,6 @@ import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
 
-LabelRecognizer.engineResourcePath = "/assets/dlr/";
-LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
-CameraEnhancer.engineResourcePath = "/assets/dce/";
-
 @Component({
   selector: 'app-mrzscanner',
   templateUrl: './mrzscanner.component.html',
@@ -26,6 +22,17 @@ export class MRZScannerComponent implements OnInit {
   ngOnInit() {
     if (this.platform.is("android")) {
       this.checkPermission();
+    }
+    if (LabelRecognizer.isWasmLoaded() === false) {
+      LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
+      if (this.platform.is("ios")) {
+        console.log("iOS. use cdn");
+        LabelRecognizer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
+        CameraEnhancer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.0.1/dist/";
+      }else{
+        LabelRecognizer.engineResourcePath = "/assets/dlr/";
+        CameraEnhancer.engineResourcePath = "/assets/dce/";
+      }
     }
   }
 
