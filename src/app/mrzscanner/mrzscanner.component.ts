@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
 
 LabelRecognizer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
+
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "license" as shown below.
  */
@@ -26,11 +28,13 @@ export class MRZScannerComponent implements OnInit {
   pCameraEnhancer = null;
 
   @ViewChild('container') container: any;
-  constructor() { 
+  constructor(public platform: Platform) { 
   }
 
   ngOnInit() {
-    this.checkPermission();
+    if (this.platform.is("android")) {
+      this.checkPermission();
+    }
   }
 
   async checkPermission(){
@@ -60,6 +64,7 @@ export class MRZScannerComponent implements OnInit {
     try {
       let cameraEnhancer = await (this.pCameraEnhancer = CameraEnhancer.createInstance());
       await cameraEnhancer.setUIElement((this as any).container.nativeElement);
+
       LabelRecognizer.onResourcesLoadStarted = () => { console.log('load started...'); }
       LabelRecognizer.onResourcesLoadProgress = (resourcesPath, progress)=>{
           console.log("Loading resources progress: " + progress.loaded + "/" + progress.total);
