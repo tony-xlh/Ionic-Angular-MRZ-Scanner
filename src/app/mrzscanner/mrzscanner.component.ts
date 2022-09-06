@@ -26,6 +26,8 @@ export class MRZScannerComponent implements OnInit {
   ngOnInit() {
     if (this.platform.is("android")) {
       this.checkPermission();
+    }else{
+      this.startScanning();
     }
   }
 
@@ -54,6 +56,7 @@ export class MRZScannerComponent implements OnInit {
 
   async startScanning(){
     try {
+
       let cameraEnhancer = await CameraEnhancer.createInstance();
       await cameraEnhancer.setUIElement((this as any).container.nativeElement);
 

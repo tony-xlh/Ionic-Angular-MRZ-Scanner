@@ -7,10 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./scanner.page.scss'],
 })
 export class ScannerPage implements OnInit {
-
   constructor(private router: Router) {
     console.log("constructor");
-
   }
 
   close(){
