@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GCDWebServer } from 'awesome-cordova-plugin-gcdwebserver';
+import { GCDWebServer } from '@awesome-cordova-plugins/gcdwebserver';
 
 @Component({
   selector: 'app-home',
