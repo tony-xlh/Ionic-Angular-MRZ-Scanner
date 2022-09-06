@@ -53,6 +53,7 @@
         <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
             <string>For barcode scanning</string>
         </config-file>
+        <preference name="allowInlineMediaPlayback" value="true" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
