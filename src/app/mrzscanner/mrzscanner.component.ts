@@ -4,10 +4,6 @@ import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
 
-LabelRecognizer.engineResourcePath = "/assets/dlr/";
-CameraEnhancer.engineResourcePath = "/assets/dce/";
-LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
-
 @Component({
   selector: 'app-mrzscanner',
   templateUrl: './mrzscanner.component.html',
@@ -15,6 +11,9 @@ LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2M
   outputs: ['onMRZRead']
 })
 export class MRZScannerComponent implements OnInit {
+  @Input() DLREngineResourcePath?:string;
+  @Input() DCEEngineResourcePath?:string;
+  @Input() license?:string;
   recognizer:LabelRecognizer = null;
   cameraEnhancer:CameraEnhancer = null;
   onMRZRead = new EventEmitter<string>();
@@ -56,7 +55,7 @@ export class MRZScannerComponent implements OnInit {
 
   async startScanning(){
     try {
-
+      this.configure();
       let cameraEnhancer = await CameraEnhancer.createInstance();
       await cameraEnhancer.setUIElement((this as any).container.nativeElement);
 
@@ -118,4 +117,38 @@ export class MRZScannerComponent implements OnInit {
     }
   }
 
+  configure(){
+    let pDLR: any = LabelRecognizer;
+    if (pDLR._pLoad.isFulfilled === false) {
+      if (this.DLREngineResourcePath) {
+        LabelRecognizer.engineResourcePath = this.DLREngineResourcePath;
+      }else{
+        LabelRecognizer.engineResourcePath = this.getDefaultDLREngineResourcePath();
+      }
+      if (this.DCEEngineResourcePath) {
+        CameraEnhancer.engineResourcePath = this.DCEEngineResourcePath;
+      }else{
+        CameraEnhancer.engineResourcePath = this.getDefaultDCEEngineResourcePath();
+      }
+      if (this.license) {
+        LabelRecognizer.license = this.license;
+      }else{
+        LabelRecognizer.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
+      }
+    }
+  }
+
+  getDefaultDLREngineResourcePath():string{
+    if (this.platform.is("ios")) {
+      return "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
+    }
+    return "/assets/dlr/";
+  }
+
+  getDefaultDCEEngineResourcePath():string{
+    if (this.platform.is("ios")) {
+      return "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.0.1/dist/";
+    }
+    return "/assets/dce/";
+  }
 }
