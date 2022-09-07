@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GCDWebServer } from '@awesome-cordova-plugins/gcdwebserver';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +15,7 @@ export class HomePage {
 
   async ngOnInit(){
     console.log("init");
-    console.log("start server in background");
-    const result = await GCDWebServer.startServer({port:51402,folder:"www"});
-    console.log(result)
+    
   }
 
   ionViewWillEnter(){

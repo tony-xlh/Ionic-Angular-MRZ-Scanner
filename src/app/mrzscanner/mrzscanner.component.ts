@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
 import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/';
+import { GCDWebServer } from '@awesome-cordova-plugins/gcdwebserver';
 
 @Component({
   selector: 'app-mrzscanner',
@@ -22,7 +23,12 @@ export class MRZScannerComponent implements OnInit {
     
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    if (this.platform.is("ios")) {
+      console.log("start server in background");
+      const result = await GCDWebServer.startServer({port:51402,folder:"www"});
+      console.log(result)
+    }
     if (this.platform.is("android")) {
       this.checkPermission();
     }else{
@@ -113,6 +119,9 @@ export class MRZScannerComponent implements OnInit {
       this.cameraEnhancer.dispose(false);
       this.recognizer = null;
       this.cameraEnhancer = null;
+      if (this.platform.is("ios")) {
+        await GCDWebServer.stopServer();
+      }
       console.log('VideoRecognizer Component Unmount');
     }
   }
@@ -140,14 +149,16 @@ export class MRZScannerComponent implements OnInit {
 
   getDefaultDLREngineResourcePath():string{
     if (this.platform.is("ios")) {
-      return "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
+      //return "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
+      return "http://localhost:51402/assets/dlr/";
     }
     return "/assets/dlr/";
   }
 
   getDefaultDCEEngineResourcePath():string{
     if (this.platform.is("ios")) {
-      return "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.0.1/dist/";
+      //return "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.0.1/dist/";
+      return "http://localhost:51402/assets/dce/";
     }
     return "/assets/dce/";
   }
