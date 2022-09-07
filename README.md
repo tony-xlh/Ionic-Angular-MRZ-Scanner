@@ -34,3 +34,7 @@ How to run:
    
 5. Use Android Studio and Xcode to open and run the project.
 
+## Blog
+
+[How to Build an Ionic Angular MRZ Passport Scanner with Cordova](https://www.dynamsoft.com/codepool/ionic-angular-mrz-passport-scanner-cordova.html)
+

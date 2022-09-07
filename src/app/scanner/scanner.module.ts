@@ -17,6 +17,6 @@ import { MRZScannerComponent } from '../mrzscanner/mrzscanner.component';
     ScannerPageRoutingModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
-  declarations: [ScannerPage,MRZScannerComponent]
+  declarations: [ScannerPage, MRZScannerComponent]
 })
 export class ScannerPageModule {}
