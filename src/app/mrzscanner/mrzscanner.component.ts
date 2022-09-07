@@ -23,12 +23,7 @@ export class MRZScannerComponent implements OnInit {
     
   }
 
-  async ngOnInit() {
-    if (this.platform.is("ios")) {
-      console.log("start server in background");
-      const result = await GCDWebServer.startServer({port:51402,folder:"www"});
-      console.log(result)
-    }
+  ngOnInit() {
     if (this.platform.is("android")) {
       this.checkPermission();
     }else{
@@ -61,6 +56,7 @@ export class MRZScannerComponent implements OnInit {
 
   async startScanning(){
     try {
+      await this.startServerForiOS();
       this.configure();
       let cameraEnhancer = await CameraEnhancer.createInstance();
       await cameraEnhancer.setUIElement((this as any).container.nativeElement);
@@ -161,5 +157,13 @@ export class MRZScannerComponent implements OnInit {
       return "http://localhost:51402/assets/dce/";
     }
     return "/assets/dce/";
+  }
+
+  async startServerForiOS():Promise<void> {
+    if (this.platform.is("ios")) {
+      console.log("start server in background");
+      const result = await GCDWebServer.startServer({port:51402,folder:"www"});
+      console.log(result)
+    }
   }
 }
