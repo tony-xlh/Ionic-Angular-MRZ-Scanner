@@ -17,7 +17,7 @@ export class HomePage {
   async ngOnInit(){
     console.log("init");
     console.log("start server in background");
-    const result = await GCDWebServer.startServer();
+    const result = await GCDWebServer.startServer({port:51402,folder:"www"});
     console.log(result)
   }
 
