@@ -139,16 +139,10 @@ export class MRZScannerComponent implements OnInit {
   }
 
   getDefaultDLREngineResourcePath():string{
-    if (this.platform.is("ios")) {
-      return "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.11/dist/";
-    }
     return "/assets/dlr/";
   }
 
   getDefaultDCEEngineResourcePath():string{
-    if (this.platform.is("ios")) {
-      return "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.0.1/dist/";
-    }
     return "/assets/dce/";
   }
 }
