@@ -2,6 +2,8 @@
 
 An Ionic angular demo using the [Dynamsoft Label Recognizer](https://www.dynamsoft.com/label-recognition/overview/) to recognize the text of MRZ. The project is based on Cordova.
 
+[Online demo](https://thunderous-moonbeam-9eb721.netlify.app/)
+
 How to run:
 
 1. npm install
